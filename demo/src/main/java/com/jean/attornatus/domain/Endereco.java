@@ -5,25 +5,34 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Entity
-public class Endereco implements Serializable {
-
+public class Endereco {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String logradouro;
     private String cep;
     private String numero;
     private String cidade;
+    private boolean principal;
 
     @ManyToOne
-    @JoinColumn(name = "pessoa_id")
     private Pessoa pessoa;
 
-    public Integer getId() {
+    public Endereco(Long id, String logradouro, String cep, String numero, String cidade, boolean principal, Pessoa pessoa) {
+        this.id = id;
+        this.logradouro = logradouro;
+        this.cep = cep;
+        this.numero = numero;
+        this.cidade = cidade;
+        this.principal = principal;
+        this.pessoa = pessoa;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -57,6 +66,14 @@ public class Endereco implements Serializable {
 
     public void setCidade(String cidade) {
         this.cidade = cidade;
+    }
+
+    public boolean isPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(boolean principal) {
+        this.principal = principal;
     }
 
     public Pessoa getPessoa() {

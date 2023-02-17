@@ -2,33 +2,40 @@ package com.jean.attornatus.domain;
 
 import jakarta.persistence.*;
 
-import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
-public abstract class Pessoa implements Serializable {
+public class Pessoa {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Integer id;
-
-    protected String nome;
-    @Temporal(TemporalType.DATE)
-    protected Date dataNascimentoPessoa;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private String nome;
+    private LocalDate dataNascimento;
 
     @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Endereco> enderecos = new ArrayList<>();
+    private List<Endereco> enderecos;
 
-    public Pessoa(){
-        super();
+    public Pessoa() {
+        this.enderecos = new ArrayList<>();
     }
 
-    public Integer getId() {
+    public void addEndereco(Endereco endereco) {
+        this.enderecos.add(endereco);
+        endereco.setPessoa(this);
+    }
+
+    public void removeEndereco(Endereco endereco) {
+        this.enderecos.remove(endereco);
+        endereco.setPessoa(null);
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -40,12 +47,12 @@ public abstract class Pessoa implements Serializable {
         this.nome = nome;
     }
 
-    public Date getDataNascimentoPessoa() {
-        return dataNascimentoPessoa;
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
     }
 
-    public void setDataNascimentoPessoa(Date dataNascimentoPessoa) {
-        this.dataNascimentoPessoa = dataNascimentoPessoa;
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
 
     public List<Endereco> getEnderecos() {
