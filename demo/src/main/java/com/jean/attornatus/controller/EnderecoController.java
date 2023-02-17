@@ -23,7 +23,7 @@ public class EnderecoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Endereco> consultarEndereco(@PathVariable Long idPessoa, @PathVariable Long id) {
-        Endereco endereco = enderecoService.consultarEndereco(idPessoa, id);
+        Endereco endereco = enderecoService.consultarEndereco(idPessoa);
         return ResponseEntity.ok(endereco);
     }
 
